@@ -1,0 +1,149 @@
+
+function findNext() {
+    // currentSearch.active = true;
+    app.findTextPreferences.findWhat = currentSearch.text;
+    FoundedList = app.activeDocument.findText();
+    var findedResults = FoundedList.length;
+    if (findedResults == 0) {
+        FindedResults.text = langFindedResults + "0";
+    } else {
+        var currentPosition = 0;
+
+        if (typeof searchNextcounts[currentSearchText] == 'undefined') {
+
+            if (typeof searchPrevcounts[currentSearchText] == 'number') {
+                currentPosition = searchPrevcounts[currentSearchText] - 1;
+            }
+            delete searchPrevcounts[currentSearchText];
+            if (currentPosition >= findedResults) currentPosition = 0;
+            searchNextcounts[currentSearchText] = currentPosition;
+        }
+
+        var key = searchNextcounts[currentSearchText];
+
+        searchNextcounts[currentSearchText]++;
+        if (searchNextcounts[currentSearchText] >= findedResults) {
+            searchNextcounts[currentSearchText] = 0;
+            // alert("Поиск завершён");
+        }
+
+        FindedResults.text = langFindedResults + (key + 1) + "/" + findedResults;
+        FoundedList[key].select();
+        app.layoutWindows[0].zoomPercentage = app.layoutWindows[0].zoomPercentage;
+    }
+}
+
+function findPrev() {
+
+    app.findTextPreferences.findWhat = currentSearch.text;
+    var currentPosition = 0;
+
+    FoundedList = app.activeDocument.findText();
+    var findedResults = FoundedList.length;
+    if (findedResults == 0) {
+        FindedResults.text = langFindedResults + "0";
+    } else {
+        if (typeof searchPrevcounts[currentSearchText] === 'undefined') {
+            if (typeof searchNextcounts[currentSearchText] == 'number') {
+                currentPosition = searchNextcounts[currentSearchText] - 1;
+            }
+            delete searchNextcounts[currentSearchText];
+            if (currentPosition < 0) currentPosition = findedResults - 1;
+            searchPrevcounts[currentSearchText] = currentPosition;
+        }
+
+        var key = searchPrevcounts[currentSearchText];
+
+        searchPrevcounts[currentSearchText] = searchPrevcounts[currentSearchText] - 1;
+
+        if (searchPrevcounts[currentSearchText] < 0) {
+            searchPrevcounts[currentSearchText] = findedResults - 1;
+            // alert("Поиск завершён");
+        }
+        FindedResults.text = langFindedResults + (key + 1) + "/" + findedResults;
+        FoundedList[key].select();
+        app.layoutWindows[0].zoomPercentage = app.layoutWindows[0].zoomPercentage;
+    }
+}
+
+
+function replaceAll() {
+    
+    app.findTextPreferences.findWhat = currentSearch.text;
+    app.changeTextPreferences.changeTo = currentReplace.text;
+    
+    if (checkRemember.value == true) {
+        logWriteToFile(currentSearch.text, currentReplace.text)
+        
+    }
+    
+    currentSearch.active = true;
+
+    var changedResults = app.activeDocument.changeText();
+    FindedResults.text = langReplacedResults + changedResults.length;
+
+    
+    logReadFromFile();
+}
+
+function logWriteToFile(tFrom, tTo) {
+
+    var from = tFrom.replace("\n", "");
+    var to = tTo.replace("\n", "");
+ 
+
+    // alert(from);
+    // alert(to);
+    // return;
+    
+    var path2 = File(Script).parent;
+    var logFilePath2 = path2 + "/" + AutoLogFile;
+    var logFile2 = new File(logFilePath2);
+    
+    logFile2.encoding = 'UTF-8';
+    logFile2.open('r');
+    var log2 = logFile2.read();
+    logFile2.close();
+
+    var newText2 = log2 + "\n" + from + "|" + to;
+    logFile2.open('w');
+    logFile2.write(newText2);
+
+    logFile2.close();
+    
+    var backwaylog = newText2.split("\n").reverse().join("\n");
+    LogIndex.text = backwaylog
+}
+
+function logSaveToFile() {
+
+    var path2 = File(Script).parent;
+    var logFilePath2 = path2 + "/" + AutoLogFile;
+    var logFile2 = new File(logFilePath2);
+ 
+    var backwaylog = LogIndex.text.split("\n").reverse().join("\n");
+   
+    logFile2.encoding = 'UTF-8';
+    logFile2.open('w');
+    logFile2.write(backwaylog);
+    logFile2.close();
+    FindedResults.text = langRunReplacerSave
+    // alert(AutoLogFile + " сохранён")
+}
+
+function logReadFromFile() {
+
+    Script = app.activeScript;
+    var path = File(Script).parent; 
+    var logFilePath = path + "/" + AutoLogFile;
+    var logFile = new File(logFilePath);
+
+    logFile.encoding = 'UTF-8';
+
+    logFile.open('r');
+    var log = logFile.read();
+    logFile.close();  
+    
+    var backwaylog = log.split("\n").reverse().join("\n");
+    LogIndex.text = backwaylog
+}

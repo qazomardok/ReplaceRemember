@@ -1,0 +1,95 @@
+var currentSearchText = app.findTextPreferences.findWhat;
+var currentReplaceText = app.changeTextPreferences.changeTo;
+
+
+var advFinder = new Window("palette", iniScriptName + " "+iniScriptVersion+ " © " + iniScriptAuthor);
+
+// advFinder.maximumSize.height = 480;
+// advFinder.maximumSize.width = 500;
+
+
+advFinder.close();
+advFinder.alignChildren = "top";
+// advFinder.orientation = "column";
+
+var MainGroup = advFinder.add("group");
+MainGroup.orientation = "row";
+MainGroup.alignChildren = "right";
+
+var advInputGroup = MainGroup.add("group");
+advInputGroup.orientation = "column";
+advInputGroup.alignment = "left";
+advInputGroup.alignChildren = "left";
+
+advInputGroup.add("statictext", undefined, langCurrentSearch);
+
+var currentSearch = advInputGroup.add("edittext", {
+    x: 10,
+    y: 0,
+    width: 320,
+    height: 20
+
+}, currentSearchText, { enterKeySignalsOnChange: true });
+
+advInputGroup.add("statictext", undefined, langCurrentReplace);
+
+var currentReplace = advInputGroup.add("edittext", {
+    x: 10,
+    y: 36,
+    width: 320,
+    height: 20
+}, currentReplaceText);
+
+var checkGoReplaceByEnter = advInputGroup.add("checkbox", undefined, langCheckReplace);
+checkGoReplaceByEnter.value = false;
+
+var checkRemember = advInputGroup.add("checkbox", undefined, langCheckRemember);
+checkRemember.value = false;
+
+
+currentSearch.active = true;
+
+var advButtonGroup = MainGroup.add("group");
+advButtonGroup.orientation = "column";
+advButtonGroup.alignChildren = "fill";
+
+var ButtonFindNext = advButtonGroup.add("button", undefined, langButtonNext);
+var ButtonFindPrev = advButtonGroup.add("button", undefined, langButtonPrev);
+var FindedResults = advButtonGroup.add("statictext", undefined, langFindedResults + "0");
+var ButtonReplaceAll = advButtonGroup.add("button", undefined, langButtonReplaceAll);
+
+
+
+
+var advBottomButtonGroup = advFinder.add("group");
+advBottomButtonGroup.alignChildren = "right";
+var ButtonGoStandart = advBottomButtonGroup.add("button", undefined, langButtonStandart);
+var ButtonCancel = advBottomButtonGroup.add("button", undefined, langButtonCancel);
+
+advFinder.cancelElement = ButtonCancel;
+
+
+
+
+var DataBaseReplacerLabel = advFinder.add("statictext", undefined, langRunReplacerLabel);
+var LogIndex = advFinder.add("edittext", {
+    x: 10,
+    y: 36,
+    width: 432,
+    height: 180
+}, "", {
+    multiline: true,
+    readonly: false
+});
+ 
+
+var AutoreplaceButtonGroup = advFinder.add("group");
+AutoreplaceButtonGroup.alignChildren = "right";
+
+
+var ButtonAutoreplaceStandart = AutoreplaceButtonGroup.add("button", undefined, langRunReplacer );
+
+var ButtonEditBase = AutoreplaceButtonGroup.add("button", undefined, langRunEditBase );
+var ButtonReSave = AutoreplaceButtonGroup.add("button", undefined, langButtonReSave);
+
+ 

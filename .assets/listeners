@@ -1,0 +1,168 @@
+advFinder.onShow = function () {
+
+    var currObj = eval(app.extractLabel('appLabel'));
+
+    if (typeof currObj == 'undefined') {
+        //var_dump(app.windows[0].bounds);
+        var Xpos = app.windows[0].bounds[1];
+        var Ypos = app.windows[0].bounds[0];
+        this.frameLocation = [Xpos, Ypos];
+    } else {
+        this.frameLocation = [currObj.y, currObj.x];
+        checkGoReplaceByEnter.value = currObj.rchk;
+        checkRemember.value = currObj.remchk;
+    }
+
+    logReadFromFile();
+}
+
+advFinder.onClose = function () {
+
+    var objLabel = {
+        x: this.frameLocation[1],
+        y: this.frameLocation[0],
+        rchk: checkGoReplaceByEnter.value,
+        remchk: checkRemember.value
+    }
+    app.insertLabel('appLabel', objLabel.toSource());
+}
+
+
+ButtonCancel.shortcutKey = "w";
+ButtonCancel.onShortcutKey = function () {
+
+    advFinder.close();
+}
+
+currentSearch.onEnterKey = function () {
+
+    app.findTextPreferences.findWhat = this.text;
+    if (checkGoReplaceByEnter.value == true) {
+        replaceAll();
+    } else {
+        findNext();
+    }
+}
+
+
+currentReplace.onEnterKey = function () {
+
+    app.findTextPreferences.findWhat = this.text;
+    currentSearch.active = true;
+    // if (checkGoReplaceByEnter.value == true) {
+    replaceAll();
+    // } else {
+    // findNext();
+    // }
+}
+
+currentSearch.onChange = function () {
+    app.findTextPreferences.findWhat = this.text;
+    if (checkGoReplaceByEnter.value == true) {
+        // replaceAll();
+    } else {
+        //findNext();
+    }
+}
+currentReplace.onChange = function () {
+    app.changeTextPreferences.changeTo = this.text;
+
+    if (checkGoReplaceByEnter.value == true) {
+        replaceAll();
+    } else {
+        findNext();
+    }
+}
+
+ButtonFindNext.onClick = function () {
+    findNext();
+    currentSearch.active = true;
+}
+ButtonFindPrev.onClick = function () {
+    findPrev();
+}
+
+ButtonReplaceAll.onClick = function () {
+    replaceAll();
+
+}
+ButtonCancel.onClick = function () {
+    advFinder.close();
+}
+
+// LogIndex.onChange = function () {
+
+//     var pathEE = File(Script).parent;
+//     var filenameEE = ".assets/log.txt";
+//     var logFilePathEE = pathEE + "/" + filenameEE;
+//     var logFileE = new File(logFilePathEE);
+//     logFileE.open('w');
+
+//     var eText = LogIndex.text;
+
+//     logFileE.write(eText);
+
+// }
+
+ButtonAutoreplaceStandart.onClick = function () {
+
+    var PretextIndex = LogIndex.text;
+
+    var textIndexA = PretextIndex.split("\n").reverse().join("\n");
+    var textIndex = textIndexA.split("\n");
+    var c = 0;
+    var rowsC = textIndex.length;
+    FindedResults.text = langReplacedResults + c;
+    for (row in textIndex) {
+        var vars = textIndex[row].split("|");
+
+        if (vars.length !== 2) { continue; }
+
+
+        currentReplace.text = vars[1];
+        currentSearch.text = vars[0];
+
+
+
+        app.findTextPreferences.findWhat = vars[0];
+        app.changeTextPreferences.changeTo = vars[1];
+        app.activeDocument.changeText();
+        c++;
+        FindedResults.text = langReplacedResults + c;
+
+        if ((rowsC - 1) == c) {
+            app.findTextPreferences.findWhat = "";
+            app.changeTextPreferences.changeTo = "";
+            alert("Готово. Произведено " + c + " замен.");
+            break;
+        }
+
+    }
+
+
+
+}
+
+ButtonGoStandart.onClick = function () {
+
+    app.findTextPreferences.findWhat = currentSearch.text;
+    app.changeTextPreferences.changeTo = currentReplace.text;
+
+    advFinder.close();
+    app.menuActions.itemByID(18694).invoke();
+
+}
+
+
+ButtonEditBase.onClick = function () {
+    var pathE = File(Script).parent;
+    var logFilePathE = pathE + "/" + AutoLogFile;
+    File(logFilePathE).execute()
+    advFinder.close();
+}
+
+
+
+ButtonReSave.onClick = function () {
+    logSaveToFile();
+}

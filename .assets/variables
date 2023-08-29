@@ -1,0 +1,31 @@
+/* Перевод */
+
+
+var iniScriptName = "Advanced Find&Search";
+var iniScriptVersion = "0.2";
+var iniScriptAuthor = "Qazomardok";
+
+var langCurrentSearch = "Найти текст:";
+var langCurrentReplace = "Заменить на:";
+var langCheckReplace = "При нажатии Enter производить замену";
+var langCheckRemember = "Запоминать поиск";
+
+
+var langButtonNext = "Найти далее";
+var langButtonPrev = "Найти ранее";
+var langFindedResults = "Результатов: ";
+var langReplacedResults = "Заменено: ";
+var langButtonReplaceAll = "Заменить всё";
+var langButtonCancel = "Закрыть";
+var langButtonStandart = "Стандартный поиск";
+var langRunReplacerLabel = "База автозамены:";
+var langRunReplacerSave = "База сохранёна";
+var langRunReplacer = "Запустить замену по базе";
+var langRunEditBase = "Редактировать базу";
+var langButtonReSave = "Сохранить";
+
+
+/* Предопределения */
+var searchNextcounts = [];
+var searchPrevcounts = [];
+var AutoLogFile = ".assets/log.txt"
