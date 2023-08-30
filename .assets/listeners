@@ -56,23 +56,23 @@ currentReplace.onEnterKey = function () {
     // }
 }
 
-currentSearch.onChange = function () {
-    app.findTextPreferences.findWhat = this.text;
-    if (checkGoReplaceByEnter.value == true) {
-        // replaceAll();
-    } else {
-        //findNext();
-    }
-}
-currentReplace.onChange = function () {
-    app.changeTextPreferences.changeTo = this.text;
+// currentSearch.onChange = function () {
+//     app.findTextPreferences.findWhat = this.text;
+//     if (checkGoReplaceByEnter.value == true) {
+//         // replaceAll();
+//     } else {
+//         //findNext();
+//     }
+// }
+// currentReplace.onChange = function () {
+//     app.changeTextPreferences.changeTo = this.text;
 
-    if (checkGoReplaceByEnter.value == true) {
-        replaceAll();
-    } else {
-        findNext();
-    }
-}
+//     if (checkGoReplaceByEnter.value == true) {
+//         replaceAll();
+//     } else {
+//         findNext();
+//     }
+// }
 
 ButtonFindNext.onClick = function () {
     findNext();
