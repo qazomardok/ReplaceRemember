@@ -14,8 +14,6 @@ with (app) {
             advFinder.close();
         }
 
-
-
         var variablesFile = activeScript.path + "/.assets/variables";
 
         var variablesFile = new File(variablesFile);
@@ -33,16 +31,12 @@ with (app) {
 
         eval("//@include \'" + activeScript.path + "/.assets/functions" + "\';");
 
-
         var selectedText = "";
         if (typeof selection[0] !== "undefined") {
-
             var selectedText = app.selection[0].constructor.name;
             var currentSelection = app.selection[0].constructor.name;
-
         } else {
             var currentSelection = "";
-
         }
 
         switch (currentSelection) {
@@ -62,7 +56,6 @@ with (app) {
                 var selectedText = "";
                 break;
         }
-
 
         app.findTextPreferences.findWhat = selectedText;
         app.changeTextPreferences.changeTo = selectedText;
