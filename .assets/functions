@@ -68,38 +68,39 @@ function findPrev() {
 
 
 function replaceAll() {
-    
+
     app.findTextPreferences.findWhat = currentSearch.text;
     app.changeTextPreferences.changeTo = currentReplace.text;
-    
-    if (checkRemember.value == true) {
-        logWriteToFile(currentSearch.text, currentReplace.text)
-        
-    }
-    
+
+
+
     currentSearch.active = true;
 
     var changedResults = app.activeDocument.changeText();
     FindedResults.text = langReplacedResults + changedResults.length;
 
-    
+
+    if (checkRemember.value == true) {
+        logWriteToFile(currentSearch.text, currentReplace.text)
+    }
     logReadFromFile();
+
 }
 
 function logWriteToFile(tFrom, tTo) {
 
     var from = tFrom.replace("\n", "");
     var to = tTo.replace("\n", "");
- 
+
 
     // alert(from);
     // alert(to);
     // return;
-    
+
     var path2 = File(Script).parent;
     var logFilePath2 = path2 + "/" + AutoLogFile;
     var logFile2 = new File(logFilePath2);
-    
+
     logFile2.encoding = 'UTF-8';
     logFile2.open('r');
     var log2 = logFile2.read();
@@ -110,7 +111,7 @@ function logWriteToFile(tFrom, tTo) {
     logFile2.write(newText2);
 
     logFile2.close();
-    
+
     var backwaylog = newText2.split("\n").reverse().join("\n");
     LogIndex.text = backwaylog
 }
@@ -120,9 +121,9 @@ function logSaveToFile() {
     var path2 = File(Script).parent;
     var logFilePath2 = path2 + "/" + AutoLogFile;
     var logFile2 = new File(logFilePath2);
- 
+
     var backwaylog = LogIndex.text.split("\n").reverse().join("\n");
-   
+
     logFile2.encoding = 'UTF-8';
     logFile2.open('w');
     logFile2.write(backwaylog);
@@ -134,7 +135,7 @@ function logSaveToFile() {
 function logReadFromFile() {
 
     Script = app.activeScript;
-    var path = File(Script).parent; 
+    var path = File(Script).parent;
     var logFilePath = path + "/" + AutoLogFile;
     var logFile = new File(logFilePath);
 
@@ -142,8 +143,8 @@ function logReadFromFile() {
 
     logFile.open('r');
     var log = logFile.read();
-    logFile.close();  
-    
+    logFile.close();
+
     var backwaylog = log.split("\n").reverse().join("\n");
     LogIndex.text = backwaylog
 }

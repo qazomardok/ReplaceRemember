@@ -35,7 +35,7 @@ ButtonCancel.onShortcutKey = function () {
 }
 
 currentSearch.onEnterKey = function () {
-
+    //   alert("@@");
     app.findTextPreferences.findWhat = this.text;
     if (checkGoReplaceByEnter.value == true) {
         replaceAll();
@@ -46,7 +46,7 @@ currentSearch.onEnterKey = function () {
 
 
 currentReplace.onEnterKey = function () {
-
+    // alert("@@11");
     app.findTextPreferences.findWhat = this.text;
     currentSearch.active = true;
     // if (checkGoReplaceByEnter.value == true) {
